@@ -29,16 +29,16 @@ export default {
   computed: {
     submitButtonCaption() {
       if (this.mode === "login") {
-        return 'Login';
+        return "Login";
       } else {
-        return 'Signup';
+        return "Signup";
       }
     },
     switchModeButtonCaption() {
       if (this.mode === "login") {
-        return 'Signup instead';
+        return "Signup instead";
       } else {
-        return 'Login instead';
+        return "Login instead";
       }
     }
   },
@@ -57,9 +57,9 @@ export default {
     },
     switchAuthMode() {
       if (this.mode === "login") {
-        this.mode === "signup";
+        this.mode = "signup";
       } else {
-        this.mode === "login";
+        this.mode = "login";
       }
     }
   }
