@@ -1,6 +1,6 @@
 export default {
   async registerCoach(context, data) {
-    const userId = context.rootGetters.userId;
+    const userId = context.rootGetters['auth/userId'];
     const coachData = {
       id: userId,
       firstName: data.first,
@@ -10,17 +10,17 @@ export default {
       areas: data.areas
     };
 
-    const response = await fetch(`https://finder-coach-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`, {
+    const response = await fetch(`${process.env.VUE_APP_API_BASE}/coaches.json`, {
       method: 'PUT',
       body: JSON.stringify(coachData)
     });
 
-    const responseData = await response.json();
-
     if(!response.ok) {
-      const error = new Error(responseData.message || 'Failed to register a Coach !');
+      const error = new Error(`${response.status} ${response.statusText}. Failed to register a Coach !`);
       throw error;
     }
+
+    // const responseData = await response.json();
 
     context.commit('registerCoach', {
       ...coachData,
@@ -32,15 +32,15 @@ export default {
     }
 
     const response = await fetch(
-      `https://finder-coach-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
+      `${process.env.VUE_APP_API_BASE}/coaches.json`
     );
 
-    const responseData = await response.json();
-
     if(!response.ok) {
-      const error = new Error(responseData.message || 'Failed to fetch !');
+      const error = new Error(`${response.status} ${response.statusText}. Failed to fetch coaches !`);
       throw error;
     }
+
+    const responseData = await response.json();
 
     const coaches = [];
 

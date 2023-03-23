@@ -6,29 +6,29 @@ export default {
       message: payload.message
     };
 
-    const response = await fetch(`https://finder-coach-default-rtdb.europe-west1.firebasedatabase.app/requests.json`, {
+    const response = await fetch(`${process.env.VUE_APP_API_BASE}/requests.json`, {
       method: 'POST',
       body: JSON.stringify(newRequest)
     });
 
-    const responseData = await response.json();
-
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to send request.');
+      const error = new Error(`${response.status} ${response.statusText}. Failed to send request.`);
       throw error;
     }
+
+    const responseData = await response.json();
 
     newRequest.id = responseData.name;
 
     context.commit('addRequest', newRequest);
   },
   async fetchRequests(context) {
-    const coachId = context.rootGetters.userId;
+    const coachId = context.rootGetters['auth/userId'];
 
-    const response = await fetch(`https://finder-coach-default-rtdb.europe-west1.firebasedatabase.app/requests.json`);
+    const response = await fetch(`${process.env.VUE_APP_API_BASE}/requests.json`);
 
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to fetch requests.');
+      const error = new Error(`${response.status} ${response.statusText}. Failed to fetch requests.`);
       throw error;
     }
 

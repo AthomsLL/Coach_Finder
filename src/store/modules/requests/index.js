@@ -11,5 +11,5 @@ export default {
   },
   mutations: requestsMutations,
   actions: requestsActions,
-  getters: requestsGetters,
+  getters: requestsGetters
 };
