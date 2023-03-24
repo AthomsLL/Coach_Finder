@@ -10,22 +10,25 @@ export default {
       areas: data.areas
     };
 
-    const response = await fetch(`${process.env.VUE_APP_API_BASE}/coaches.json`, {
+    const token = context.rootGetters['auth/token'];
+
+    const response = await fetch(`${process.env.VUE_APP_API_BASE}/coaches/${userId}.json?auth=${token}`, {
       method: 'PUT',
       body: JSON.stringify(coachData)
     });
+
+    // const responseData = await response.json();
 
     if(!response.ok) {
       const error = new Error(`${response.status} ${response.statusText}. Failed to register a Coach !`);
       throw error;
     }
 
-    // const responseData = await response.json();
-
     context.commit('registerCoach', {
       ...coachData,
     });
   },
+  
   async loadCoaches(context, payload) {
     if (!payload.forceRefresh && !context.getters.shouldUpdate) {
       return;

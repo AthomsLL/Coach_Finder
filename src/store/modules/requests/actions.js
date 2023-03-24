@@ -22,10 +22,12 @@ export default {
 
     context.commit('addRequest', newRequest);
   },
+
   async fetchRequests(context) {
     const coachId = context.rootGetters['auth/userId'];
+    const token = context.rootGetters['auth/token'];
 
-    const response = await fetch(`${process.env.VUE_APP_API_BASE}/requests.json`);
+    const response = await fetch(`${process.env.VUE_APP_API_BASE}/requests.json?auth=${token}`);
 
     if (!response.ok) {
       const error = new Error(`${response.status} ${response.statusText}. Failed to fetch requests.`);
@@ -48,7 +50,6 @@ export default {
         requests.push(request);
       }
     }
-
     context.commit('setRequests', requests);
   }
 }
